@@ -1,0 +1,19 @@
+name: Update GitHub pages
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'soundboard_web/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2 # Only works with v2
+      - uses: subosito/flutter-action@v1
+      - uses: bluefireteam/flutter-gh-pages@v7
+        with:
+          workingDir: soundboard_web
+          customArgs: --dart-define supabase_url=${{ vars.SUPABASE_URL }} --dart-define supabase_anon_key=${{ vars.SUPABASE_ANON_KEY }}
