@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:soundboard_web/features/mood/mood.dart';
 
 class MoodPage extends StatelessWidget {
@@ -6,11 +7,14 @@ class MoodPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Stack(
-      children: [
-        MoodVideo(),
-        MoodImage(),
-      ],
+    return BlocProvider<MoodCubit>(
+      create: (context) => MoodCubit(),
+      child: Stack(
+        children: [
+          MoodVideo(),
+          const MoodImage(),
+        ],
+      ),
     );
   }
 }
