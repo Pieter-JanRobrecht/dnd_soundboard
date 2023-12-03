@@ -8,6 +8,12 @@ class Video extends Equatable {
     this.description,
   });
 
+  const Video.fromUser({
+    required this.youtubeId,
+    required this.shortDescription,
+    this.description,
+  }) : isPlaying = false;
+
   factory Video.fromSupabase(Map<String, dynamic> map) {
     return Video._(
       youtubeId: map['youtube_id'] as String,
@@ -22,8 +28,10 @@ class Video extends Equatable {
   final String? description;
   final bool isPlaying;
 
-  Map<String, dynamic> toMoodMap() => {
+  Map<String, dynamic> toSupabase() => {
         'youtube_id': youtubeId,
+        'short_description': shortDescription,
+        'description': description,
       };
 
   @override
