@@ -14,26 +14,17 @@ class SelectVideoPage extends StatelessWidget {
       child: BlocBuilder<SelectVideoCubit, SelectVideoState>(
           builder: (context, state) {
         return GridView.builder(
+          padding: const EdgeInsets.all(24),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
+            crossAxisCount: 5,
+            crossAxisSpacing: 8,
+            mainAxisSpacing: 8,
           ),
           itemCount: state.videos.length,
           itemBuilder: (BuildContext context, int index) {
             final video = state.videos[index];
 
-            return ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateColor.resolveWith(
-                (states) =>
-                    Colors.primaries[Random().nextInt(Colors.primaries.length)],
-              )),
-              onPressed: () =>
-                  context.read<SelectVideoCubit>().changeCurrentPlaying(video),
-              child: Tooltip(
-                message: video.description,
-                child: Text(video.shortDescription),
-              ),
-            );
+            return SelectVideoButton(video: video);
           },
         );
       }),

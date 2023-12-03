@@ -16,10 +16,13 @@ class SelectVideoCubit extends Cubit<SelectVideoState> {
     final videos =
         await _supabase.from('videos').select<List<Map<String, dynamic>>>();
 
-    emit(SelectVideoState(videos.map(Video.fromSupabase).toList()));
+    emit(SelectVideoState(videos.map(SoundboardVideo.fromSupabase).toList()));
   }
 
-  Future<void> changeCurrentPlaying(Video video) async {
-    await _supabase.from('current_mood').update(video.toMoodMap());
+  Future<void> changeCurrentPlaying(SoundboardVideo video) async {
+    await _supabase
+        .from('current_mood')
+        .update(video.toMoodMap())
+        .eq('index', '1');
   }
 }

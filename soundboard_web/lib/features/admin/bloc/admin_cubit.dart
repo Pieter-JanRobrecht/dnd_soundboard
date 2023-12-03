@@ -19,7 +19,7 @@ class AdminCubit extends Cubit<AdminState> {
     required String shortDescription,
     String? description,
   }) async {
-    final video = Video.fromUser(
+    final video = SoundboardVideo.fromUser(
       youtubeId: youtubeId,
       shortDescription: shortDescription,
       description: description,
@@ -42,7 +42,7 @@ class AdminCubit extends Cubit<AdminState> {
         .from('mood_images')
         .createSignedUrl(imageName, tenYears.inSeconds);
 
-    final image = Image.fromUser(
+    final image = SoundboardImage.fromUser(
       imageUrl: signedUrl,
       shortDescription: shortDescription,
       description: description,
