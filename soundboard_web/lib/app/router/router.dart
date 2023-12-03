@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:soundboard_web/features/admin/admin.dart';
 import 'package:soundboard_web/features/mood/mood.dart';
 import 'package:soundboard_web/app/router/route.dart';
 import 'package:soundboard_web/app/app.dart';
@@ -25,8 +26,7 @@ GoRouter routes() => GoRouter(
                 GoRoute(
                   name: AppRoute.adminPage,
                   path: AppRoute.adminPageRoute,
-                  builder: (context, state) =>
-                      const MyHomePage(title: 'Flutter Demo Home Page'),
+                  builder: (context, state) => const AdminPage(),
                 ),
               ],
             ),

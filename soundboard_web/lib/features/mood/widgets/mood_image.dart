@@ -8,9 +8,8 @@ class MoodImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MoodCubit, MoodState>(
-      buildWhen: (previous, current) => current is ShowImage,
       builder: (context, state) {
-        if (state is! ShowImage) {
+        if (state.imageUrl == null) {
           return Container(
             color: Colors.transparent,
             width: MediaQuery.maybeOf(context)?.size.width,
@@ -22,7 +21,7 @@ class MoodImage extends StatelessWidget {
             width: MediaQuery.maybeOf(context)?.size.width,
             height: MediaQuery.maybeOf(context)?.size.height,
             child: Image.network(
-              state.imageUrl,
+              state.imageUrl!,
               fit: BoxFit.fitHeight,
             ),
           );

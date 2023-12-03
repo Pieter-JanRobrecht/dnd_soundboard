@@ -13,9 +13,14 @@ class MoodVideo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<MoodCubit, MoodState>(
-      listenWhen: (previous, current) => current is PlayVideo,
-      listener: (context, state) =>
-          _controller.loadVideoById(videoId: (state as PlayVideo).videoId),
+      listenWhen: (previous, current) => previous.videoId != current.videoId,
+      listener: (context, state) {
+        if (state.videoId == null) {
+          _controller.stopVideo();
+        } else {
+          _controller.loadVideoById(videoId: state.videoId!);
+        }
+      },
       child: YoutubePlayer(
         controller: _controller,
       ),
