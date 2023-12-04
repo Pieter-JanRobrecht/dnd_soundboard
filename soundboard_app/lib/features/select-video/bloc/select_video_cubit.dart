@@ -7,12 +7,12 @@ part 'select_video_state.dart';
 
 class SelectVideoCubit extends Cubit<SelectVideoState> {
   SelectVideoCubit() : super(const SelectVideoState([])) {
-    _loadVideos();
+    loadVideos();
   }
 
   final _supabase = Supabase.instance.client;
 
-  Future<void> _loadVideos() async {
+  Future<void> loadVideos() async {
     final videos =
         await _supabase.from('videos').select<List<Map<String, dynamic>>>();
 

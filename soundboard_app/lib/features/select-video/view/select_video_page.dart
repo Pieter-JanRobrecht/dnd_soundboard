@@ -13,19 +13,22 @@ class SelectVideoPage extends StatelessWidget {
       create: (context) => SelectVideoCubit(),
       child: BlocBuilder<SelectVideoCubit, SelectVideoState>(
           builder: (context, state) {
-        return GridView.builder(
-          padding: const EdgeInsets.all(24),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 5,
-            crossAxisSpacing: 8,
-            mainAxisSpacing: 8,
-          ),
-          itemCount: state.videos.length,
-          itemBuilder: (BuildContext context, int index) {
-            final video = state.videos[index];
+        return RefreshIndicator(
+          onRefresh: () async => context.read<SelectVideoCubit>().loadVideos(),
+          child: GridView.builder(
+            padding: const EdgeInsets.all(24),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 5,
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 8,
+            ),
+            itemCount: state.videos.length,
+            itemBuilder: (BuildContext context, int index) {
+              final video = state.videos[index];
 
-            return SelectVideoButton(video: video);
-          },
+              return SelectVideoButton(video: video);
+            },
+          ),
         );
       }),
     );

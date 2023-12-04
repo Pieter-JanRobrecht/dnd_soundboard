@@ -7,6 +7,7 @@ part 'mood_state.dart';
 class MoodCubit extends Cubit<MoodState> {
   MoodCubit() : super(const MoodState()) {
     _listenToChanges();
+    _readMood();
   }
 
   final _supabase = Supabase.instance.client;

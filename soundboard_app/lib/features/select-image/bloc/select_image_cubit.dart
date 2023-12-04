@@ -7,12 +7,12 @@ part 'select_image_state.dart';
 
 class SelectImageCubit extends Cubit<SelectImageState> {
   SelectImageCubit() : super(const SelectImageState([])) {
-    _loadImages();
+    loadImages();
   }
 
   final _supabase = Supabase.instance.client;
 
-  Future<void> _loadImages() async {
+  Future<void> loadImages() async {
     final images =
         await _supabase.from('images').select<List<Map<String, dynamic>>>();
 

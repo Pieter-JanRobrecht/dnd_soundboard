@@ -14,19 +14,22 @@ class SelectImagePage extends StatelessWidget {
       create: (context) => SelectImageCubit(),
       child: BlocBuilder<SelectImageCubit, SelectImageState>(
           builder: (context, state) {
-        return GridView.builder(
-          padding: const EdgeInsets.all(24),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 5,
-            crossAxisSpacing: 8,
-            mainAxisSpacing: 8,
-          ),
-          itemCount: state.images.length,
-          itemBuilder: (BuildContext context, int index) {
-            final image = state.images[index];
+        return RefreshIndicator(
+          onRefresh: () async => context.read<SelectImageCubit>().loadImages(),
+          child: GridView.builder(
+            padding: const EdgeInsets.all(24),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 5,
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 8,
+            ),
+            itemCount: state.images.length,
+            itemBuilder: (BuildContext context, int index) {
+              final image = state.images[index];
 
-            return SelectImageButton(image: image);
-          },
+              return SelectImageButton(image: image);
+            },
+          ),
         );
       }),
     );
