@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
@@ -10,9 +11,29 @@ part 'admin_state.dart';
 const tenYears = Duration(days: 365 * 10);
 
 class AdminCubit extends Cubit<AdminState> {
-  AdminCubit() : super(AdminInitial());
+  AdminCubit() : super(const AdminInitial());
 
   final _supabase = Supabase.instance.client;
+  late final StreamSubscription<List<Map<String, dynamic>>> _imagesSubscription;
+  late final StreamSubscription<List<Map<String, dynamic>>> _videosSubscription;
+
+  Future<void> initialize() async {
+    _imagesSubscription =
+        _supabase.from('images').stream(primaryKey: ['image_url']).listen(
+      (data) {
+        final images = data.map(SoundboardImage.fromSupabase).toList();
+        emit(AdminLoaded(images: images, videos: state.videos));
+      },
+    );
+
+    _videosSubscription =
+        _supabase.from('videos').stream(primaryKey: ['youtube_id']).listen(
+      (data) {
+        final videos = data.map(SoundboardVideo.fromSupabase).toList();
+        emit(AdminLoaded(images: state.images, videos: videos));
+      },
+    );
+  }
 
   Future<void> insertVideo({
     required String youtubeId,
@@ -49,5 +70,28 @@ class AdminCubit extends Cubit<AdminState> {
     );
 
     await _supabase.from('images').insert(image.toSupabase());
+  }
+
+  Future<void> updateImage({
+    required SoundboardImage image,
+    bool? isActive,
+  }) async {
+    final updatedImage = SoundboardImage.withActive(image, isActive);
+    _supabase.from('images').update(updatedImage.toSupabase());
+  }
+
+  Future<void> updateVideo({
+    required SoundboardVideo video,
+    bool? isActive,
+  }) async {
+    final updatedVideo = SoundboardVideo.withActive(video, isActive);
+    _supabase.from('videos').update(updatedVideo.toSupabase());
+  }
+
+  @override
+  Future<void> close() async {
+    _imagesSubscription.cancel();
+    _videosSubscription.cancel();
+    super.close();
   }
 }
