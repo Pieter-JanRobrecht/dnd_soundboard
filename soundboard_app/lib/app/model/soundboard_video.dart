@@ -5,6 +5,7 @@ class SoundboardVideo extends Equatable {
     required this.youtubeId,
     required this.shortDescription,
     required this.isPlaying,
+    required this.isActive,
     this.description,
   });
 
@@ -13,6 +14,7 @@ class SoundboardVideo extends Equatable {
       youtubeId: map['youtube_id'] as String,
       shortDescription: map['short_description'] as String,
       isPlaying: map['playing'] as bool,
+      isActive: map['active'] as bool,
       description: map['description'] as String?,
     );
   }
@@ -21,6 +23,7 @@ class SoundboardVideo extends Equatable {
   final String shortDescription;
   final String? description;
   final bool isPlaying;
+  final bool isActive;
 
   Map<String, dynamic> toMoodMap() => {
         'youtube_id': youtubeId,
@@ -32,5 +35,6 @@ class SoundboardVideo extends Equatable {
         shortDescription,
         description,
         isPlaying,
+        isActive,
       ];
 }

@@ -77,7 +77,10 @@ class AdminCubit extends Cubit<AdminState> {
     bool? isActive,
   }) async {
     final updatedImage = SoundboardImage.withActive(image, isActive);
-    _supabase.from('images').update(updatedImage.toSupabase());
+    return _supabase
+        .from('images')
+        .update(updatedImage.toSupabase())
+        .match({'image_url': updatedImage.imageUrl});
   }
 
   Future<void> updateVideo({
@@ -85,7 +88,10 @@ class AdminCubit extends Cubit<AdminState> {
     bool? isActive,
   }) async {
     final updatedVideo = SoundboardVideo.withActive(video, isActive);
-    _supabase.from('videos').update(updatedVideo.toSupabase());
+    return _supabase
+        .from('videos')
+        .update(updatedVideo.toSupabase())
+        .match({'youtube_id': updatedVideo.youtubeId});
   }
 
   @override

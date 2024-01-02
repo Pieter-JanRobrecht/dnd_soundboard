@@ -5,6 +5,7 @@ class SoundboardImage extends Equatable {
     required this.imageUrl,
     required this.shortDescription,
     required this.isShowing,
+    required this.isActive,
     this.description,
   });
 
@@ -13,6 +14,7 @@ class SoundboardImage extends Equatable {
       imageUrl: map['image_url'] as String,
       shortDescription: map['short_description'] as String,
       isShowing: map['showing'] as bool,
+      isActive: map['active'] as bool,
       description: map['description'] as String?,
     );
   }
@@ -21,6 +23,7 @@ class SoundboardImage extends Equatable {
   final String shortDescription;
   final String? description;
   final bool isShowing;
+  final bool isActive;
 
   Map<String, dynamic> toMoodMap() => {
         'image_url': imageUrl,
@@ -32,5 +35,6 @@ class SoundboardImage extends Equatable {
         shortDescription,
         description,
         isShowing,
+        isActive,
       ];
 }

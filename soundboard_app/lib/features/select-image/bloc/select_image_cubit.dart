@@ -13,8 +13,10 @@ class SelectImageCubit extends Cubit<SelectImageState> {
   final _supabase = Supabase.instance.client;
 
   Future<void> loadImages() async {
-    final images =
-        await _supabase.from('images').select<List<Map<String, dynamic>>>();
+    final images = await _supabase
+        .from('images')
+        .select<List<Map<String, dynamic>>>()
+        .eq('active', true);
 
     emit(SelectImageState(images.map(SoundboardImage.fromSupabase).toList()));
   }
